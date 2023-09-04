@@ -17,17 +17,11 @@ namespace Prometheus.Client.HttpClient.MessageHandlers
         protected readonly IMetricFactory MetricFactory;
         protected abstract string[] Labels { get; }
         protected abstract TMetricFamily CreateMetricInstance(string[] labels);
-        protected HttpClientMessageHandlerBase(HttpClientMetricsOptionsBase options, TMetricFamily customMetric, string clientName)
+        protected HttpClientMessageHandlerBase(HttpClientMetricsOptions options,IMetricFactory metricFactory, string clientName)
         {
             _clientName = clientName;
-            if (customMetric != null)
-            {
-                _metric = customMetric;
-            }
-            else
-            {
-                _metric = CreateMetricInstance(Labels);
-            }
+            MetricFactory = metricFactory;
+            _metric = CreateMetricInstance(Labels);
         }
 
         protected TMetric WithLabels(HttpRequestMessage httpRequest, HttpResponseMessage httpResponse)

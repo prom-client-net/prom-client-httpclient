@@ -12,9 +12,9 @@ namespace Prometheus.Client.HttpClient
         /// <summary>
         /// Configures the HttpClient pipeline to collect Prometheus metrics.
         /// </summary>
-        public static IHttpClientBuilder UseHttpClientMetrics(this IHttpClientBuilder builder, Action<HttpClientMetricOptionsBuilder> configure)
+        public static IHttpClientBuilder UseHttpClientMetrics(this IHttpClientBuilder builder, Action<HttpClientMetricsOptions> configure)
         {
-            var options = new HttpClientMetricOptionsBuilder();
+            var options = new HttpClientMetricsOptions();
 
             configure?.Invoke(options);
 
@@ -26,15 +26,14 @@ namespace Prometheus.Client.HttpClient
         /// <summary>
         /// Configures the HttpClient pipeline to collect Prometheus metrics.
         /// </summary>
-        public static IHttpClientBuilder UseHttpClientMetrics(this IHttpClientBuilder builder, HttpClientMetricOptionsBuilder options = null)
+        public static IHttpClientBuilder UseHttpClientMetrics(this IHttpClientBuilder builder, HttpClientMetricsOptions options = null)
         {
-            options ??= new HttpClientMetricOptionsBuilder();
+            options ??= new HttpClientMetricsOptions();
 
-            if (options.RequestCount.Enabled)
-            {
-                builder = builder.AddHttpMessageHandler(x => new HttpClientRequestCountHandler(options.RequestCount, options.RequestCount.Counter, builder.Name));
-            }
-
+            var metricFactory = new MetricFactory(options.CollectorRegistry ?? new Collectors.CollectorRegistry());
+            
+            builder = builder.AddHttpMessageHandler(x => new HttpClientRequestCountHandler(options, metricFactory, builder.Name));
+            
             return builder;
         }
     }
