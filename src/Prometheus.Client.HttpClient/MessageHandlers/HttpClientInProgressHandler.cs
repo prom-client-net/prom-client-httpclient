@@ -19,7 +19,21 @@ namespace Prometheus.Client.HttpClient.MessageHandlers
 
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            return null;
+            HttpResponseMessage response = null;
+            var metric = CreateMetric(request, null);
+
+            metric.Inc();
+
+            try
+            {
+                response = await base.SendAsync(request, cancellationToken);
+            }
+            finally 
+            {
+                metric.Dec();
+            }
+
+            return response;
         }
 
         protected override IMetricFamily<IGauge> CreateMetricInstance(string[] labels) => MetricFactory.CreateGauge(Constants.InProgresMetricName, Constants.InProgresMetricHelp, labels);

@@ -28,7 +28,7 @@ namespace Prometheus.Client.HttpClient.MessageHandlers
             }
             finally
             {
-                WithLabels(request, response).Inc();
+                CreateMetric(request, response).Inc();
             }
         }
 

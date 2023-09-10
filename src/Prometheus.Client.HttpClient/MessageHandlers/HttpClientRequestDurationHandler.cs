@@ -33,7 +33,7 @@ namespace Prometheus.Client.HttpClient.MessageHandlers
             {
                 stopWatch.Stop();
 
-                WithLabels(request, response).Observe(stopWatch.Elapsed.TotalSeconds);
+                CreateMetric(request, response).Observe(stopWatch.Elapsed.TotalSeconds);
             }
         }
 
