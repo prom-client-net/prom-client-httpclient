@@ -32,7 +32,7 @@ namespace Prometheus.Client.HttpClient
 
             var metricFactory = new MetricFactory(options.CollectorRegistry ?? new Collectors.CollectorRegistry());
             
-            builder = builder.AddHttpMessageHandler(x => new HttpClientRequestCountHandler(options, metricFactory, builder.Name));
+            //builder = builder.AddHttpMessageHandler(x => new HttpClientRequestCountHandler(options, metricFactory, builder.Name));
             
             return builder;
         }
