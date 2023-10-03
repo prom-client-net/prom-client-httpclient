@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Prometheus.Client.Collectors;
 
-namespace Prometheus.Client.HttpClient.Options
+namespace Prometheus.Client.HttpClient
 {
     public class HttpClientMetricsOptions
     {

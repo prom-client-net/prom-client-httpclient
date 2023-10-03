@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Extensions.DependencyInjection;
+using Prometheus.Client.Collectors;
 using Prometheus.Client.HttpClient.MessageHandlers;
-using Prometheus.Client.HttpClient.Options;
 
 namespace Prometheus.Client.HttpClient
 {
@@ -30,9 +30,12 @@ namespace Prometheus.Client.HttpClient
         {
             options ??= new HttpClientMetricsOptions();
 
-            var metricFactory = new MetricFactory(options.CollectorRegistry ?? new Collectors.CollectorRegistry());
+            options.CollectorRegistry ??= Metrics.DefaultCollectorRegistry;
+
+            var metricFactory = new MetricFactory(options.CollectorRegistry);
             
-            //builder = builder.AddHttpMessageHandler(x => new HttpClientRequestCountHandler(options, metricFactory, builder.Name));
+            builder = builder.AddHttpMessageHandler(x => new HttpClientInProgressHandler(metricFactory, builder.Name));
+            builder = builder.AddHttpMessageHandler(x => new HttpClientRequestDurationHandler(metricFactory, builder.Name));
             
             return builder;
         }

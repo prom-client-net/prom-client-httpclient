@@ -19,20 +19,5 @@ namespace Prometheus.Client.HttpClient
         public const string RequestDurationMetricHelp = "Duration histogram of HTTP requests performed by an HttpClient.";
         public const string ResponseDurationMetricName = "httpclient_response_duration_seconds";
         public const string ResponseDurationMetricHelp = "Duration histogram of HTTP requests performed by an HttpClient, measuring the duration until the HTTP response finished being processed.";
-
-        public static readonly string[] AllLabels =
-        {
-            Method,
-            Host,
-            Client,
-            StatusCode
-        };
-
-        public static readonly string[] PreResponseLabels =
-        {
-            Method,
-            Host,
-            Client
-        };
     }
 }
