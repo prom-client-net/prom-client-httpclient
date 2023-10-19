@@ -22,9 +22,17 @@ namespace Prometheus.Client.HttpClient.MessageHandlers
         {
             var host = httpRequest?.RequestUri?.Host ?? string.Empty;
             var method = httpRequest?.Method?.Method ?? string.Empty;
-            var statusCode = Convert.ToString(httpResponse?.StatusCode);
+            var statusCode = GetStatusCode(httpResponse);
 
             return _metric.WithLabels((host, _clientName, method, statusCode));
+        }
+
+        private string GetStatusCode(HttpResponseMessage httpResponse)
+        {
+            if (httpResponse == null)
+                return string.Empty;
+
+            return Convert.ToString((int)httpResponse.StatusCode);
         }
     }
 }
