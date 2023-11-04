@@ -13,13 +13,13 @@ namespace Prometheus.Client.HttpClient
         /// <summary>
         /// Configures the HttpClient pipeline to collect Prometheus metrics.
         /// </summary>
-        public static IHttpClientBuilder UseHttpClientMetrics(this IHttpClientBuilder builder, IApplicationBuilder applicationBuilder, Action<HttpClientMetricsOptions> configure)
+        public static IHttpClientBuilder AddHttpClientMetrics(this IHttpClientBuilder builder, Action<HttpClientMetricsOptions> configure)
         {
             var options = new HttpClientMetricsOptions();
 
             configure?.Invoke(options);
 
-            builder.UseHttpClientMetrics(applicationBuilder, options);
+            builder.AddHttpClientMetrics(options);
 
             return builder;
         }
@@ -27,16 +27,20 @@ namespace Prometheus.Client.HttpClient
         /// <summary>
         /// Configures the HttpClient pipeline to collect Prometheus metrics.
         /// </summary>
-        public static IHttpClientBuilder UseHttpClientMetrics(this IHttpClientBuilder builder, IApplicationBuilder applicationBuilder,  HttpClientMetricsOptions options = null)
+        public static IHttpClientBuilder AddHttpClientMetrics(this IHttpClientBuilder builder,  HttpClientMetricsOptions options = null)
         {
             options ??= new HttpClientMetricsOptions();
-            options.CollectorRegistry ??= (ICollectorRegistry)applicationBuilder.ApplicationServices.GetService(typeof(ICollectorRegistry))
-                    ?? Metrics.DefaultCollectorRegistry;
-
-            var metricFactory = new MetricFactory(options.CollectorRegistry);
             
-            builder = builder.AddHttpMessageHandler(x => new HttpClientInProgressHandler(metricFactory, builder.Name));
-            builder = builder.AddHttpMessageHandler(x => new HttpClientRequestDurationHandler(metricFactory, builder.Name));
+            builder = builder.AddHttpMessageHandler(sp =>
+            {
+                options.CollectorRegistry ??= (ICollectorRegistry)sp.GetService(typeof(ICollectorRegistry)) ?? Metrics.DefaultCollectorRegistry;
+                return new HttpClientInProgressHandler(new MetricFactory(options.CollectorRegistry), builder.Name);
+            });
+            builder = builder.AddHttpMessageHandler(sp =>
+            {
+                options.CollectorRegistry ??= (ICollectorRegistry)sp.GetService(typeof(ICollectorRegistry)) ?? Metrics.DefaultCollectorRegistry;
+                return new HttpClientRequestDurationHandler(new MetricFactory(options.CollectorRegistry), builder.Name);
+            });
             
             return builder;
         }
