@@ -17,6 +17,11 @@ namespace Prometheus.Client.HttpClient.Tests.MessageHandlers
         protected DelegatingHandler handler;
         protected CollectorRegistry collectorRegistry;
 
+        public HandlerTestsBase()
+        {
+            collectorRegistry = new Collectors.CollectorRegistry();
+        }
+
         protected static DelegatingHandler CreateMockHandler(Action action)
         {
             var handlerMock = Substitute.For<DelegatingHandler>();

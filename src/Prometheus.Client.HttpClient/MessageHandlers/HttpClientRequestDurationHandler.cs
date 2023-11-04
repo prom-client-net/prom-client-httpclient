@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Prometheus.Client.HttpClient.MessageHandlers
 {
-    public sealed class HttpClientRequestDurationHandler : HttpClientMessageHandlerBase<IMetricFamily<IHistogram, ValueTuple<string,string,string,string>>, IHistogram>
+    public class HttpClientRequestDurationHandler : HttpClientMessageHandlerBase<IMetricFamily<IHistogram, ValueTuple<string,string,string,string>>, IHistogram>
     {
         public HttpClientRequestDurationHandler(IMetricFactory metricFactory, string clientName)
             : base(metricFactory, clientName)
@@ -28,7 +28,7 @@ namespace Prometheus.Client.HttpClient.MessageHandlers
             {
                 stopWatch.Stop();
 
-                CreateMetric(request, response).Observe(stopWatch.Elapsed.TotalSeconds);
+                WithLabels(request, response).Observe(stopWatch.Elapsed.TotalSeconds);
             }
         }
 

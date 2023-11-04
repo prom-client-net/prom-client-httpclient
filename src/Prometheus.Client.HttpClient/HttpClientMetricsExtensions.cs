@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Prometheus.Client.Collectors;
 using Prometheus.Client.HttpClient.MessageHandlers;
@@ -12,13 +13,13 @@ namespace Prometheus.Client.HttpClient
         /// <summary>
         /// Configures the HttpClient pipeline to collect Prometheus metrics.
         /// </summary>
-        public static IHttpClientBuilder UseHttpClientMetrics(this IHttpClientBuilder builder, Action<HttpClientMetricsOptions> configure)
+        public static IHttpClientBuilder UseHttpClientMetrics(this IHttpClientBuilder builder, IApplicationBuilder applicationBuilder, Action<HttpClientMetricsOptions> configure)
         {
             var options = new HttpClientMetricsOptions();
 
             configure?.Invoke(options);
 
-            builder.UseHttpClientMetrics(options);
+            builder.UseHttpClientMetrics(applicationBuilder, options);
 
             return builder;
         }
@@ -26,11 +27,11 @@ namespace Prometheus.Client.HttpClient
         /// <summary>
         /// Configures the HttpClient pipeline to collect Prometheus metrics.
         /// </summary>
-        public static IHttpClientBuilder UseHttpClientMetrics(this IHttpClientBuilder builder, HttpClientMetricsOptions options = null)
+        public static IHttpClientBuilder UseHttpClientMetrics(this IHttpClientBuilder builder, IApplicationBuilder applicationBuilder,  HttpClientMetricsOptions options = null)
         {
             options ??= new HttpClientMetricsOptions();
-
-            options.CollectorRegistry ??= Metrics.DefaultCollectorRegistry;
+            options.CollectorRegistry ??= (ICollectorRegistry)applicationBuilder.ApplicationServices.GetService(typeof(ICollectorRegistry))
+                    ?? Metrics.DefaultCollectorRegistry;
 
             var metricFactory = new MetricFactory(options.CollectorRegistry);
             

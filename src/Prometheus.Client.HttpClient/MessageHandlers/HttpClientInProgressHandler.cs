@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Prometheus.Client.HttpClient.MessageHandlers
 {
-    public sealed class HttpClientInProgressHandler : HttpClientMessageHandlerBase<IMetricFamily<IGauge, ValueTuple<string, string, string, string>>, IGauge>
+    public class HttpClientInProgressHandler : HttpClientMessageHandlerBase<IMetricFamily<IGauge, ValueTuple<string, string, string, string>>, IGauge>
     {
         public HttpClientInProgressHandler(IMetricFactory metricFactory, string clientName)
             : base(metricFactory, clientName)
@@ -15,7 +15,7 @@ namespace Prometheus.Client.HttpClient.MessageHandlers
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
             HttpResponseMessage response = null;
-            var metric = CreateMetric(request, null);
+            var metric = WithLabels(request, null);
 
             metric.Inc();
 

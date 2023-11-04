@@ -21,8 +21,8 @@ namespace Prometheus.Client.HttpClient.Tests.MessageHandlers
     public class HttpClientRequestDurationHanlderTests : HandlerTestsBase
     {
         public HttpClientRequestDurationHanlderTests()
+            :base()
         {
-            collectorRegistry = new Collectors.CollectorRegistry();
             handler = new HttpClientRequestDurationHandler(new MetricFactory(collectorRegistry), CLIENT_NAME);
         }
 

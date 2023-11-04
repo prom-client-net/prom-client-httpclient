@@ -12,8 +12,8 @@ namespace Prometheus.Client.HttpClient.Tests.MessageHandlers
     public class HttpClientInProgressHandlerTests : HandlerTestsBase
     {
         public HttpClientInProgressHandlerTests()
+            :base()
         {
-            collectorRegistry = new Collectors.CollectorRegistry();
             handler = new HttpClientInProgressHandler(new MetricFactory(collectorRegistry), CLIENT_NAME);
         }
 

@@ -18,7 +18,7 @@ namespace Prometheus.Client.HttpClient.MessageHandlers
             _metric = CreateMetricInstance();
         }
 
-        protected TMetric CreateMetric(HttpRequestMessage httpRequest, HttpResponseMessage httpResponse)
+        protected TMetric WithLabels(HttpRequestMessage httpRequest, HttpResponseMessage httpResponse)
         {
             var host = httpRequest?.RequestUri?.Host ?? string.Empty;
             var method = httpRequest?.Method?.Method ?? string.Empty;
