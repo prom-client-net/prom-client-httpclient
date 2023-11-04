@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Prometheus.Client.Collectors;
 using Prometheus.Client.HttpClient.MessageHandlers;
