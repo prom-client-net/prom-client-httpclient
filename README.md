@@ -1,14 +1,14 @@
-# prom-tmpl
+# prom-client-httpclient
 
-[![sync](https://img.shields.io/github/actions/workflow/status/prom-client-net/prom-tmpl/sync.yml?branch=main&label=sync&logo=github&style=flat-square)](https://github.com/prom-client-net/prom-tmpl/actions/workflows/sync.yml)
-[![license](https://img.shields.io/github/license/prom-client-net/prom-tmpl?style=flat-square)](https://github.com/prom-client-net/prom-tmpl/blob/main/LICENSE)
+[![ci](https://img.shields.io/github/actions/workflow/status/prom-client-net/prom-client-httpclient/ci.yml?branch=main&label=ci&logo=github&style=flat-square)](https://github.com/prom-client-net/prom-client-httpclient/actions/workflows/ci.yml)
+[![license](https://img.shields.io/github/license/prom-client-net/prom-client-httpclient?style=flat-square)](https://github.com/prom-client-net/prom-client-httpclient/blob/main/LICENSE)
 
 ## Contribute
 
 Contributions to the package are always welcome!
 
-* Report any bugs or issues you find on the [issue tracker](https://github.com/prom-client-net/prom-tmpl/issues).
-* You can grab the source code at the package's [git repository](https://github.com/prom-client-net/prom-tmpl).
+* Report any bugs or issues you find on the [issue tracker](https://github.com/prom-client-net/prom-client-httpclient/issues).
+* You can grab the source code at the package's [git repository](https://github.com/prom-client-net/prom-client-httpclient).
 
 ## License
 
