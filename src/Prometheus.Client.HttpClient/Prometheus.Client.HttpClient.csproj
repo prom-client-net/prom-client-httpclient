@@ -4,7 +4,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Prometheus.Client" Version="5.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.1" />
   </ItemGroup>
   <ItemGroup>
     <InternalsVisibleTo Include="$(MSBuildProjectName).Tests, PublicKey=002400000480000094000000060200000024000052534131000400000100010005cd7fff58a5f07dd84ba50975028ab8f3e6d86aa42579628f27012bdcb335ab71f06ec08a39d4308e0be6d63507b9afdd4763e7625251a68912bfadb5b411627a397e6f70a20eb28f5c841e8e8354fc19a1d538ee079575a59678edc98597f98f659b697c46d5f1ca1f1b0b8be057c9eb0a1496a2da78074760026ee98a3ceb" />
