@@ -23,20 +23,12 @@ services.AddHttpClient("MyClient")
     .AddHttpClientMetrics();
 ```
 
-Override the collector registry (defaults to the one registered in DI, otherwise `Metrics.DefaultCollectorRegistry`):
-
-```c#
-services.AddHttpClient("MyClient")
-    .AddHttpClientMetrics(q =>
-    {
-        q.CollectorRegistry =App registry;
-    });
-```
+Override the collector registry with `AddHttpClientMetrics(q => q.CollectorRegistry = registry)`.
 
 Exposed metrics:
 
-* `httpclient_requests_in_progress` - Number of requests currently being executed by an `HttpClient`. Labels: `method`, `host`, `client`.
-* `httpclient_request_duration_seconds` - Duration histogram of HTTP requests performed by an `HttpClient`. Labels: `method`, `host`, `client`, `status_code`.
+* `httpclient_requests_in_progress` - Number of requests currently being executed by an `HttpClient`.
+* `httpclient_request_duration_seconds` - Duration histogram of HTTP requests performed by an `HttpClient`.
 
 ## Contribute
 
